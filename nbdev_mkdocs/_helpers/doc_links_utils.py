@@ -212,16 +212,18 @@ def fix_sym_links(s: str, nbdev_lookup: NbdevLookup, docs_versioning: str, lib_v
     """
     pattern = r"\[`.+?`\]\(https?://[^)]+\)"
     for match in re.findall(pattern, s):
-        symbol = _get_backtick_enclosed_string(match)
-        symbol_details = nbdev_lookup[symbol]
-        if symbol_details is not None:
-            updated_link = _update_link(
-                symbol,
-                symbol_details,
-                nbdev_lookup,
-                docs_versioning,
-                lib_version,
-                use_relative_doc_links,
-            )
-            s = s.replace(match, updated_link)
+        update_link = match.replace(".html", '/')
+        s = s.replace(match, update_link)
+        # symbol = _get_backtick_enclosed_string(match)
+        # symbol_details = nbdev_lookup[symbol]
+        # if symbol_details is not None:
+        #     updated_link = _update_link(
+        #         symbol,
+        #         symbol_details,
+        #         nbdev_lookup,
+        #         docs_versioning,
+        #         lib_version,
+        #         use_relative_doc_links,
+        #     )
+        #     s = s.replace(match, updated_link)
     return s
